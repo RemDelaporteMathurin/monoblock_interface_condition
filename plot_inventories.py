@@ -19,7 +19,7 @@ for phi_heat, phi_imp in zip([3e6, 6e6, 7e6], [1e21, 1e21, 1e21]):
     inventory_concentration = sum(
         [
             data_concentration["Total_retention_volume_{}".format(vol_id)]
-            for vol_id in [8]
+            for vol_id in [8, 7, 6]
         ]
     )
 
@@ -32,7 +32,10 @@ for phi_heat, phi_imp in zip([3e6, 6e6, 7e6], [1e21, 1e21, 1e21]):
     t_chemical = data_chemical["ts"]
 
     inventory_chemical = sum(
-        [data_chemical["Total_retention_volume_{}".format(vol_id)] for vol_id in [8]]
+        [
+            data_chemical["Total_retention_volume_{}".format(vol_id)]
+            for vol_id in [8, 7, 6]
+        ]
     )
 
     plt.plot(t_concentration, inventory_concentration)
