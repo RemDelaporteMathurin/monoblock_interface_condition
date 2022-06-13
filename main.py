@@ -113,7 +113,7 @@ model.T = F.HeatTransferProblem(transient=False)
 # settings
 
 model.settings = F.Settings(
-    absolute_tolerance=1e10,
+    absolute_tolerance=1e8,
     relative_tolerance=1e-10,
     final_time=2e7,
     chemical_pot=True,
