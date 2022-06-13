@@ -51,20 +51,34 @@ model.materials = F.Materials([tungsten, cu, cucrzr])
 
 # traps
 
-trap_w1 = F.Trap(
-    8.96e-17, 0.2, 1e13, 0.87, materials=tungsten, density=1.1e-3 * atom_density_W
-)
+# trap_w1 = F.Trap(
+#     8.96e-17, 0.2, 1e13, 0.87, materials=tungsten, density=1.1e-3 * atom_density_W
+# )
 trap_w2 = F.Trap(
     8.96e-17, 0.2, 1e13, 1, materials=tungsten, density=4e-4 * atom_density_W
 )
-trap_cu = F.Trap(
-    6.0e-17, 0.39, 8.0e13, 0.50, materials=cu, density=5.0e-5 * atom_density_Cu
-)
-trap_cucrzr = F.Trap(
-    1.2e-16, 0.42, 8.0e13, 0.85, materials=cucrzr, density=5.0e-5 * atom_density_CuCrZr
+# trap_cu = F.Trap(
+#     6.0e-17, 0.39, 8.0e13, 0.50, materials=cu, density=5.0e-5 * atom_density_Cu
+# )
+# trap_cucrzr = F.Trap(
+#     1.2e-16, 0.42, 8.0e13, 0.85, materials=cucrzr, density=5.0e-5 * atom_density_CuCrZr
+# )
+
+trap_conglo = F.Trap(
+    k_0=[8.96e-17, 6.0e-17, 1.2e-16],
+    E_k=[0.2, 0.39, 0.42],
+    p_0=[1e13, 8e13, 8e13],
+    E_p=[0.87, 0.5, 0.85],
+    materials=[tungsten, cu, cucrzr],
+    density=[
+        1.1e-3 * atom_density_W,
+        5.0e-5 * atom_density_Cu,
+        5.0e-5 * atom_density_CuCrZr,
+    ],
 )
 
-model.traps = F.Traps([trap_w1, trap_w2, trap_cu, trap_cucrzr])
+# model.traps = F.Traps([trap_w1, trap_w2, trap_cu, trap_cucrzr])
+model.traps = F.Traps([trap_conglo, trap_w2])
 
 # mesh
 
@@ -107,7 +121,7 @@ model.settings = F.Settings(
 )
 
 
-model.dt = F.Stepsize(initial_value=1e3, stepsize_change_ratio=1.1, dt_min=1e2)
+model.dt = F.Stepsize(initial_value=1e4, stepsize_change_ratio=1.1, dt_min=1e2)
 
 # exports
 derived_quantities = F.DerivedQuantities(
@@ -116,8 +130,8 @@ derived_quantities = F.DerivedQuantities(
         for field in ["retention", "solute"]
         for mat in [tungsten, cu, cucrzr]
     ]
-    + [F.TotalVolume(field, tungsten.id) for field in ["1", "2"]]
-    + [F.TotalVolume(field, mat.id) for field, mat in zip(["3", "4"], [cu, cucrzr])]
+    + [F.TotalVolume("2", tungsten.id)]
+    + [F.TotalVolume("1", mat.id) for mat in [tungsten, cu, cucrzr]]
     + [F.SurfaceFlux(field="solute", surface=id_coolant_surf)]
 )
 
