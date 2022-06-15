@@ -125,3 +125,22 @@ if __name__ == "__main__":
 
     make_figure(mobile_concentration)
     plt.savefig("mobile_concentration_real_colourbar.pdf")
+
+    retention_chemical_pot_small_t = load_field(
+        mesh,
+        fieldfile=folder + "/chemical_potential_continuity/retention.xdmf",
+        field="retention",
+        counter=4,
+    )
+    retention_concentration_small_t = load_field(
+        mesh,
+        fieldfile=folder + "/concentration_continuity/retention.xdmf",
+        field="retention",
+        counter=4,
+    )
+
+    make_figure(retention_chemical_pot_small_t)
+    plt.savefig("retention_chemical_pot_short_exposure.pdf")
+
+    make_figure(retention_concentration_small_t)
+    plt.savefig("retention_concentration_short_exposure.pdf")
