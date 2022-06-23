@@ -26,7 +26,7 @@ for i, (phi_heat, phi_imp) in enumerate(
 
     plt.sca(axs[0][i])
 
-    title = "{:.1f} MW".format(phi_heat / 1e6)
+    title = "{:.1f} MW".format(phi_heat / 1e6) + " m$^{-2}$"
 
     plt.gca().title.set_text(title)
 
